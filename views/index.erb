@@ -1,0 +1,23 @@
+<h1>Endpoint Demo</h1>
+
+<% if settings.registered.nil? %>
+  This Endpoint is not registered, please enter your name below and click "Register"
+  <form method="post" action="/register">
+    <label>Your IP: </label>
+    <input type="text" name="ip" value="<%= Socket.ip_address_list.detect{|intf| intf.ipv4_private?}.ip_address %>"><br>
+
+    <label>Your Name: </label>
+    <input type="text" name="name">
+    <input type="submit" value="Register">
+  </form>
+<% else %>
+  <strong>Endpoint Address: </strong>"<%= settings.registered['url'] %>"<br>
+  <strong>Endpoint Name: </strong>"<%= settings.registered['name'] %>"
+
+  <% if settings.message.nil? %>
+    <h3>No message received yet! :(</h3>
+  <% else %>
+    <h4>Message Received:</h4>
+    <pre><%= JSON.pretty_generate settings.message %></pre>
+  <% end %>
+<% end %>
