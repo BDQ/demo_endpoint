@@ -3,7 +3,6 @@ require 'sinatra'
 require 'sinatra/json'
 require 'httparty'
 require 'json'
-require 'ruby-debug'
 require 'socket'
 
 class DemoEndpoint  < Sinatra::Base
@@ -21,7 +20,8 @@ class DemoEndpoint  < Sinatra::Base
 
   post '/register' do
     name = params[:name]
-    name.gsub!(/[^a-zA-Z]/, '.').downcase!
+    name.gsub!(/[^a-zA-Z]/, '.')
+    name.downcase!
 
     response = HTTParty.post("http://bdq.spreeconf.com:8000/api/registrations.json",
                          body: { registration: { keys: ['order:new'], url: "http://#{params[:ip]}:9000/order", name: name, token: 'abc123' }},
